@@ -23,7 +23,6 @@ export class UsersService {
   ) {}
 
   findAll = async (): Promise<CreateUserDto[]> => {
-    console.log(this.permissionService.returnRequest());
     return await this.queryService.findAll(this.usersRepository);
   }
 

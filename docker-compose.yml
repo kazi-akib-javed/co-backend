@@ -1,0 +1,24 @@
+#Before all pull redis and postgres then run all or may be create a new network and connect all services
+# docker-compose up --build
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - redis
+      - postgres
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:alpine
+    environment: 
+      POSTGRES_USER: javed
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"

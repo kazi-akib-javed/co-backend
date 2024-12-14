@@ -5,8 +5,6 @@ import { CustomBaseEntity } from 'common/entities/custom-base.entity';
 import { FindOptionsWhere, Relation, Repository } from 'typeorm';
 import { Inject } from '@nestjs/common';
 import { SystemException } from 'common/exceptions/system.exception';
-import { PartialType } from '@nestjs/swagger';
-import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 interface Options {
     [field: string]: any;
