@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
+  BcryptService,
   ConversionService,
   ExceptionService,
   PermissionService,
@@ -10,6 +11,7 @@ import {
   UsersEntity,
 } from '../../common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { AuthDto } from 'src/auth/dto/auth.dto';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +22,7 @@ export class UsersService {
     private readonly conversionService: ConversionService,
     private readonly queryService: QueryService,
     private readonly permissionService: PermissionService,
+    private readonly bcryptService: BcryptService
   ) {}
 
   findAll = async (): Promise<CreateUserDto[]> => {
@@ -46,4 +49,29 @@ export class UsersService {
       throw new SystemException(error.message);
     }
   };
+
+  validateUser = async (authDto: AuthDto): Promise<CreateUserDto> => {
+    try {
+      const user = await this.queryService.findOne<CreateUserDto, UsersEntity>(this.usersRepository, { email: authDto?.email }, ['role']);
+      if (!user) {
+        throw new SystemException({
+          status: HttpStatus.BAD_REQUEST,
+          message: "Wrong credentials!"
+        })
+      }
+      const isPasswordMatched = await this.bcryptService.comparePassword(
+        authDto.password,
+        user?.password,
+      );
+      if (!isPasswordMatched) {
+        throw new SystemException({
+          status: HttpStatus.BAD_REQUEST,
+          message: "User and password is not valid",
+        });
+      }
+      return user;
+    } catch (error) {
+      throw new SystemException(error);
+    }
+  }
 }

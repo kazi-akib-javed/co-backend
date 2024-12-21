@@ -17,8 +17,8 @@ services:
   postgres:
     image: postgres:alpine
     environment: 
-      POSTGRES_USER: javed
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydb
+      POSTGRES_DB: cobackend
     ports:
       - "5432:5432"

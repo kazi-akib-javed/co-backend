@@ -1,4 +1,13 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards, UseInterceptors } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+  UseGuards,
+  UseInterceptors,
+} from "@nestjs/common";
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -12,11 +21,22 @@ import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { DtoValidationPipe } from "common";
 import { CsrfTokenInterceptor } from "common/interceptors/csrf.interceptor";
+import { AUTH_METHOD, GeneralAuthGateway } from "./helper/auth.gateway";
+import { AuthHelperService } from "./helper/auth-helper.service";
 
 @ApiTags("Auth")
 @Controller("auth")
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly authHelperService: AuthHelperService
+  ) {
+    const generalAuthGateway = new GeneralAuthGateway(this.authHelperService);
+    this.authService.registerAuthGateway(
+      AUTH_METHOD.GENERAL,
+      generalAuthGateway
+    );
+  }
 
   @ApiCreatedResponse({
     status: HttpStatus.OK,
@@ -32,9 +52,10 @@ export class AuthController {
         forbidNonWhitelisted: true,
       })
     )
-    registerDto: RegisterDto
+    registerDto: RegisterDto,
+    @Query("authMethod") authMethod: AUTH_METHOD
   ) {
-    return this.authService.register(registerDto);
+    return this.authService.register(registerDto, authMethod);
   }
 
   @ApiOperation({
@@ -128,9 +149,10 @@ export class AuthController {
         forbidNonWhitelisted: true,
       })
     )
-    authDto: AuthDto
+    authDto: AuthDto,
+    @Query("authMethod") authMethod: AUTH_METHOD
   ) {
-    return this.authService.login(authDto);
+    return this.authService.login(authDto, authMethod);
   }
 
   @ApiBearerAuth()

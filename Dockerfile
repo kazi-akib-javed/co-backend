@@ -6,12 +6,12 @@ WORKDIR /home/node/app
 
 COPY package*.json ./
 
-USER node
-
-RUN yarn install
+RUN yarn install --cache-folder /tmp/.yarn-cache && rm -rf /tmp/.yarn-cache
 
 COPY --chown=node:node . .
 
+USER node
+
 EXPOSE 4000
 
-CMD [ "yarn", "start:ddev" ]
+CMD [ "yarn", "start:dock" ]

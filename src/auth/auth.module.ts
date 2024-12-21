@@ -1,39 +1,33 @@
 import { Module } from "@nestjs/common";
-import { AuthService } from "./auth.service";
-import { AuthController } from "./auth.controller";
-import { TypeOrmModule } from "@nestjs/typeorm";
 import {
   BcryptService,
   ConversionService,
   ExceptionService,
-  OtpService,
   PermissionService,
   QueryService,
   RedisService,
   RequestService,
-  ResponseService,
   UsersEntity,
 } from "../../common";
-import { ConfigService } from "@nestjs/config";
-import { UsersService } from "../users/users.service";
-import Redis from "ioredis";
-
+import { AuthController } from "./auth.controller";
+import { AuthService } from "./auth.service";
+import { AuthHelperService } from "./helper/auth-helper.service";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { UsersService } from "src/users/users.service";
 @Module({
   imports: [TypeOrmModule.forFeature([UsersEntity])],
   controllers: [AuthController],
   providers: [
     AuthService,
-    ExceptionService,
-    RequestService,
-    ConversionService,
-    ResponseService,
-    BcryptService,
-    ConfigService,
-    PermissionService,
-    UsersService,
     QueryService,
-    OtpService,
-    RedisService
+    RedisService,
+    PermissionService,
+    BcryptService,
+    AuthHelperService,
+    ConversionService,
+    RequestService,
+    UsersService,
+    ExceptionService,
   ],
 })
 export class AuthModule {}

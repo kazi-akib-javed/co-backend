@@ -32,7 +32,7 @@ async function bootstrap() {
   );
 
   //Swagger configuration for development environment only
-  if(env === 'dev' || env === 'ddev'){
+  if(env === 'dev' || env === 'dock'){
     const basicAuth = require('express-basic-auth');
     app.use(
       ['/apidoc'],
