@@ -1,38 +1,41 @@
 import {
     ArgumentMetadata,
+    BadRequestException,
     Injectable,
-    Optional,
     PipeTransform,
-    ValidationPipeOptions,
   } from '@nestjs/common';
-  import { plainToClass } from 'class-transformer';
+  import { plainToInstance } from 'class-transformer';
   import { validate } from 'class-validator';
-  import { DtoValidationException } from '../exceptions/dto.exception';
   
   @Injectable()
   export class DtoValidationPipe implements PipeTransform<any> {
-    options: ValidationPipeOptions;
+    async transform(value: any, metadata: ArgumentMetadata) {
+      const { metatype } = metadata;
+      if (!metatype || !this.toValidate(metatype)) {
+        return value;
+      }
+      const object = plainToInstance(metatype, value);
+      const errors = await validate(object, {
+        whitelist: true, // Remove properties not defined in DTO
+        forbidNonWhitelisted: true, // Throw error for undefined properties
+        skipMissingProperties: false, // Ensure all required properties are present
+      });
   
-    constructor(@Optional() options?: ValidationPipeOptions) {
-      this.options = options || {};
+      if (errors.length > 0) {
+        // Transform errors into a human-readable format
+        const messages = errors.map(
+          (err) =>
+            `${err.property}: ${Object.values(err.constraints).join(', ')}`,
+        );
+        throw new BadRequestException(messages);
+      }
+  
+      return value;
     }
   
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    private static toValidate(metatype: Function): boolean {
-      // eslint-disable-next-line @typescript-eslint/ban-types
+    private toValidate(metatype: Function): boolean {
       const types: Function[] = [String, Boolean, Number, Array, Object];
       return !types.includes(metatype);
     }
-  
-    async transform(value: any, { metatype }: ArgumentMetadata) {
-      if (!metatype || !DtoValidationPipe.toValidate(metatype)) {
-        return value;
-      }
-      const object = plainToClass(metatype, value);
-      const errors = await validate(object, this.options);
-      if (errors.length > 0) {
-        throw new DtoValidationException(errors, 'DTO Validation Error');
-      }
-      return value;
-    }
+
   }

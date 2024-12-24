@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { HttpStatus, Injectable, Logger } from "@nestjs/common";
 import * as jwt from "jsonwebtoken";
 import {
   BcryptService,
@@ -49,6 +49,10 @@ export class AuthHelperService {
   registerHelper = async (registerDto: RegisterDto): Promise<RegisterDto> => {
     try {
       //const randomPassword = await this.otpService.randomPasswordGenerator();
+      const user = await this.userService.findUserByEmail(registerDto.email);
+      if(user){
+        throw new SystemException({status: HttpStatus.BAD_REQUEST, message: 'User already exists!'});
+      }
       registerDto.password = await this.bcryptService.hashPassword(
         registerDto.password
       );

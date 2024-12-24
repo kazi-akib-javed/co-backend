@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { RolesService } from "./roles.service";
 import { CreateRolesDto } from "./dto/create-roles.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { DtoValidationPipe, IntValidationPipe } from "common";
+import { DtoValidationPipe } from "common";
+import { IntValidationException } from "common/exceptions/int.expection";
 
 @ApiTags("Roles")
 @Controller("role")
@@ -18,11 +19,7 @@ export class RolesController {
   @Post()
   create(
     @Body(
-      new DtoValidationPipe({
-        skipMissingProperties: false,
-        whitelist: true,
-        forbidNonWhitelisted: true,
-      })
+      new DtoValidationPipe()
     )
     createRoleDto: CreateRolesDto
   ): Promise<CreateRolesDto> {
@@ -31,14 +28,14 @@ export class RolesController {
 
   @ApiBearerAuth()
   @Get(":id")
-  findOne(@Param('id', new IntValidationPipe()) id: number): Promise<CreateRolesDto> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<CreateRolesDto> {
     return this.rolesService.findOne(id);
   }
 
   @ApiBearerAuth()
   @Put(":id")
   update(
-    @Param('id',new IntValidationPipe()) id: number,
+    @Param('id', ParseIntPipe) id: number,
     @Body(new DtoValidationPipe()) dto: CreateRolesDto
   ): Promise<CreateRolesDto> {
     return this.rolesService.update(id, dto);
@@ -46,7 +43,7 @@ export class RolesController {
 
   @ApiBearerAuth()
   @Delete(":id")
-  remove(@Param('id',new IntValidationPipe()) id: number): Promise<CreateRolesDto> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<CreateRolesDto> {
     return this.rolesService.remove(id);
   }
 }

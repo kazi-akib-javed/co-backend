@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
+import { GlobalExceptionsFilter, SystemException } from 'common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{cors: true});
@@ -14,6 +15,9 @@ async function bootstrap() {
   const logger = new Logger();
 
   app.setGlobalPrefix('api');
+  // Apply the global exception filter
+  app.useGlobalFilters(new GlobalExceptionsFilter());
+
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // Automatically transform payloads to DTO instances
@@ -21,11 +25,11 @@ async function bootstrap() {
       forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are provided
       exceptionFactory: (errors) => {
         // Customize error messages
-        return new BadRequestException(
-          errors.map((error) => ({
+        return new SystemException(
+          { errors: errors.map((error) => ({
             property: error.property,
             constraints: error.constraints,
-          }))
+          }))}
         );
       },
     }),

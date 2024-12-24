@@ -22,11 +22,7 @@ export class ProgramsController {
   @Post()
   create(
     @Body(
-      new DtoValidationPipe({
-        skipMissingProperties: false,
-        whitelist: true,
-        forbidNonWhitelisted: true,
-      })
+      new DtoValidationPipe()
     )
     createProgramDto: CreateProgramDto
   ): Promise<CreateProgramDto> {

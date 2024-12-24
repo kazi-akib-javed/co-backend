@@ -35,8 +35,7 @@ export class AuthService {
       }
       return await gateway.registerWith(registerDto);
     } catch (error) {
-      console.error("Error during registration:", error);
-      throw new SystemException(error.message);
+      throw new SystemException(error);
     }
   };
 
@@ -51,21 +50,20 @@ export class AuthService {
       }
       return await gateway.loginWith(authDto);
     } catch (error) {
-      console.error("Error during login:", error);
       throw new SystemException(error.message);
     }
   };
 
   loginOut = async (): Promise<any> => {
     try {
-      const accessToken = await this.permissionService.returnRequest().accessToken;
+      const accessToken = this.permissionService.returnRequest().accessToken;
       
       const payload = jwt.decode(accessToken) as any; // Decode token to get expiration time
       
       if (!payload || !payload.exp) {
         throw new Error("Invalid token payload.");
       }
-      
+
       const ttl = payload.exp - Math.floor(Date.now() / 1000);
       if (ttl > 0) {
         await this.redisService.set(
@@ -76,7 +74,7 @@ export class AuthService {
       }
       return { message: "Logout successful", success: true };
     } catch (error) {
-      console.warn("Error during logout:", error);
+      throw new SystemException(error);
     }
   };
 }

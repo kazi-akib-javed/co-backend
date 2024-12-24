@@ -18,7 +18,6 @@ export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
-    private readonly exceptionService: ExceptionService,
     private readonly conversionService: ConversionService,
     private readonly queryService: QueryService,
     private readonly permissionService: PermissionService,
@@ -37,16 +36,11 @@ export class UsersService {
       const user = await this.usersRepository.findOne({
         where: { email: emailOrUserName },
       });
-      this.exceptionService.notFound(
-        user,
-        'User is not found by phone or email',
-      );
-
       return await this.conversionService.toDto<UsersEntity, CreateUserDto>(
         user,
       );
     } catch (error) {
-      throw new SystemException(error.message);
+      throw new SystemException(error);
     }
   };
 

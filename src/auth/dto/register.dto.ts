@@ -20,7 +20,7 @@ export class RegisterDto extends BaseDto{
     email: string;
 
     @ApiProperty({ default: "0170000001" })
-    @IsString()
+    @IsString({message: 'Phone number must be string'})
     phone: string;
 
     @ApiProperty({ default: "Jashore, Bangladesh" })

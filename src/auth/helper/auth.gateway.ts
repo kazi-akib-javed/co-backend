@@ -26,6 +26,9 @@ export class GeneralAuthGateway implements AuthGateway{
     }
 }
 
+
+
+
 export enum AUTH_METHOD{
-    GENERAL = 'general'
+    GENERAL = 'general',
 }
