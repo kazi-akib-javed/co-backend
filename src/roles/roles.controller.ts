@@ -3,7 +3,6 @@ import { RolesService } from "./roles.service";
 import { CreateRolesDto } from "./dto/create-roles.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { DtoValidationPipe } from "common";
-import { IntValidationException } from "common/exceptions/int.expection";
 
 @ApiTags("Roles")
 @Controller("role")
@@ -18,9 +17,7 @@ export class RolesController {
   @ApiBearerAuth()
   @Post()
   create(
-    @Body(
-      new DtoValidationPipe()
-    )
+    @Body(DtoValidationPipe)
     createRoleDto: CreateRolesDto
   ): Promise<CreateRolesDto> {
     return this.rolesService.create(createRoleDto);
@@ -36,7 +33,7 @@ export class RolesController {
   @Put(":id")
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body(new DtoValidationPipe()) dto: CreateRolesDto
+    @Body(DtoValidationPipe) dto: CreateRolesDto
   ): Promise<CreateRolesDto> {
     return this.rolesService.update(id, dto);
   }

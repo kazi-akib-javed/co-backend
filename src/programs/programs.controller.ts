@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from "@nestjs/common";
 import { ProgramsService } from "./programs.service";
 import { CreateProgramDto } from "./dto/create-program.dto";
@@ -21,9 +22,7 @@ export class ProgramsController {
   @ApiBearerAuth()
   @Post()
   create(
-    @Body(
-      new DtoValidationPipe()
-    )
+    @Body(DtoValidationPipe)
     createProgramDto: CreateProgramDto
   ): Promise<CreateProgramDto> {
     return this.programsService.create(createProgramDto);
@@ -36,17 +35,17 @@ export class ProgramsController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
+  findOne(@Param("id", ParseIntPipe) id: number) {
     return this.programsService.findOne(+id);
   }
 
   @Patch(":id")
-  update(@Param("id") id: string, @Body() updateProgramDto: UpdateProgramDto) {
+  update(@Param("id", ParseIntPipe) id: number, @Body(DtoValidationPipe) updateProgramDto: UpdateProgramDto) {
     return this.programsService.update(+id, updateProgramDto);
   }
 
   @Delete(":id")
-  remove(@Param("id") id: string) {
+  remove(@Param("id", ParseIntPipe) id: number) {
     return this.programsService.remove(+id);
   }
 }

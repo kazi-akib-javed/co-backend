@@ -47,9 +47,7 @@ export class AuthController {
   @UseInterceptors(CsrfTokenInterceptor)
   @Post("login")
   login(
-    @Body(
-      new DtoValidationPipe()
-    )
+    @Body(DtoValidationPipe)
     authDto: AuthDto,
     @Query("authMethod") authMethod: AUTH_METHOD
   ) {
