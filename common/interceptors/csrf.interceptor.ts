@@ -7,12 +7,13 @@ import {
   } from '@nestjs/common';
   import { Observable } from 'rxjs';
   import { tap } from 'rxjs/operators';
-  import * as crypto from 'crypto';
+
 import { ConfigService } from '@nestjs/config';
+import { CsrfService } from 'common/services/csrf.service';
   
   @Injectable()
   export class CsrfTokenInterceptor implements NestInterceptor {
-    constructor(@Inject(ConfigService)private readonly configService: ConfigService){}
+    constructor(@Inject(ConfigService)private readonly csrfService: CsrfService){}
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
       const ctx = context.switchToHttp();
       const response = ctx.getResponse();
@@ -20,11 +21,11 @@ import { ConfigService } from '@nestjs/config';
       return next.handle().pipe(
         tap(() => {
           // Generate a CSRF token
-          const csrfToken = crypto.randomBytes(32).toString('hex');
+          const csrfToken = this.csrfService.generateCsrf();
           // Set the CSRF token in a cookie
           response.cookie('csrf-token', csrfToken, {
             httpOnly: true,
-            secure: this.configService.get<string>("NODE_ENV") === 'prod',
+            secure: true,
             sameSite: 'Strict',
           });
         }),

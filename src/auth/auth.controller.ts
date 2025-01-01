@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Query, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { DtoValidationPipe, SystemException } from "common";
+import { DtoValidationPipe } from "common";
 import { CsrfTokenInterceptor } from "common/interceptors/csrf.interceptor";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
@@ -13,7 +13,7 @@ import { AUTH_METHOD, GeneralAuthGateway } from "./helper/auth.gateway";
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly authHelperService: AuthHelperService
+    private readonly authHelperService: AuthHelperService,
   ) {
     const generalAuthGateway = new GeneralAuthGateway(this.authHelperService);
     this.authService.registerAuthGateway(

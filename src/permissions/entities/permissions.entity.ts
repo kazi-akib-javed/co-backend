@@ -1,11 +1,11 @@
 
 import { CustomBaseEntity } from "common/entities/entities.config";
-import { RoleEntity } from "src/roles/entities/roles.entity";
+import { RoleEntity } from "../../roles/entities/roles.entity";
 import { Column, Entity, Index, JoinTable, ManyToMany } from "typeorm";
 
 @Entity({name: 'co_permissions', schema: 'public'})
 @Index(['id'])
-export class PermissionEntity extends CustomBaseEntity {
+export class PermissionsEntity extends CustomBaseEntity {
     @Column({name: 'name', type: 'varchar', unique: true, nullable: false})
     name: string;
 

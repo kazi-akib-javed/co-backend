@@ -5,7 +5,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { DtoValidationPipe } from "common";
 
 @ApiTags("Roles")
-@Controller("role")
+@Controller("roles")
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
   @ApiBearerAuth()

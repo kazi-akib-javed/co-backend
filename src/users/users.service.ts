@@ -5,6 +5,7 @@ import {
   BcryptService,
   ConversionService,
   ExceptionService,
+  isActive,
   PermissionService,
   QueryService,
   SystemException,
@@ -34,7 +35,7 @@ export class UsersService {
   ): Promise<CreateUserDto> => {
     try {
       const user = await this.usersRepository.findOne({
-        where: { email: emailOrUserName },
+        where: { email: emailOrUserName, ...isActive },
       });
       return await this.conversionService.toDto<UsersEntity, CreateUserDto>(
         user,
@@ -46,7 +47,7 @@ export class UsersService {
 
   validateUser = async (authDto: AuthDto): Promise<CreateUserDto> => {
     try {
-      const user = await this.queryService.findOne<CreateUserDto, UsersEntity>(this.usersRepository, { email: authDto?.email }, ['role']);
+      const user = await this.queryService.findOne<CreateUserDto, UsersEntity>(this.usersRepository, { email: authDto?.email, ...isActive }, ['role']);
       if (!user) {
         throw new SystemException({
           status: HttpStatus.BAD_REQUEST,

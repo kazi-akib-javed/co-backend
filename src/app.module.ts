@@ -13,9 +13,11 @@ import { ProgramsModule } from './programs/programs.module';
 import { RolesModule } from './roles/roles.module';
 import { ConfigService } from '@nestjs/config';
 import { PermissionsModule } from './permissions/permissions.module';
+import { RolePermissionsModule } from './role-permissions/role-permissins.module';
+import { ScraperModule } from './scraper/scraper.module';
 
 @Module({
-  imports: [configTypeorm(),configEnvironment(), configRedis(), AuthModule, UsersModule, ProgramsModule, RolesModule, PermissionsModule],
+  imports: [configTypeorm(),configEnvironment(), configRedis(), AuthModule, UsersModule, RolesModule, PermissionsModule, RolePermissionsModule, ScraperModule, ProgramsModule],
   controllers: [AppController],
   providers: [AppService,
     {
@@ -42,6 +44,6 @@ export class AppModule {
       .exclude(...publicUrls)
       .forRoutes("*");
       if(this.configService.get<string>('NODE_ENV')==='prod')
-      consumer.apply(CsrfMiddleware).exclude('/auth/login').forRoutes('*');
+      consumer.apply(CsrfMiddleware).exclude(...publicUrls).forRoutes('*');
   }
 }

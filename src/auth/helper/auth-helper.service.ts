@@ -9,7 +9,6 @@ import {
   UsersEntity,
 } from "common";
 import { CreateUserDto } from "../../users/dto/create-user.dto";
-
 import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersService } from "../../users/users.service";
@@ -91,8 +90,6 @@ export class AuthHelperService {
         expiresIn: "365d",
         algorithm: "RS256",
       });
-
-      this.logger.log("access token: " + accessToken);
       return Promise.resolve(accessToken);
     } catch (error) {
       throw new SystemException(error);

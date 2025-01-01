@@ -2,7 +2,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, IsString } from "class-validator";
 import { BaseDto } from "common";
-import { CreateRolesDto } from "src/roles/dto/create-roles.dto";
+import { CreateRolesDto } from "../../roles/dto/create-roles.dto";
 
 export class CreatePermissionDto extends BaseDto {
     @ApiProperty()

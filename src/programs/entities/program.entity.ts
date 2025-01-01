@@ -1,9 +1,10 @@
 import { CustomBaseEntity } from "common";
 import { Column, Entity, Index } from "typeorm";
+import { ProgramsInterface } from "../interface/programs.interface";
 
 @Entity({ name: 'co_programs', schema: 'public'})
-@Index(['id','appStartDate','appEndDate','requiredGpa','subject'])
-export class ProgramEntity extends CustomBaseEntity {
+@Index(['id'])
+export class ProgramEntity extends CustomBaseEntity implements ProgramsInterface {
     @Column({ name: 'university', type: 'varchar', unique: true, nullable: false })
     university: string;
 
@@ -34,12 +35,6 @@ export class ProgramEntity extends CustomBaseEntity {
     @Column({ name: 'gre_score', type: 'varchar', unique: false, nullable: false })
     greScore: string;
 
-    @Column({ name: 'application_start_date', type: 'date', unique: false, nullable: false })
-    appStartDate: Date;
-
-    @Column({ name: 'application_end_date', type: 'date', unique: false, nullable: false })
-    appEndDate: Date;
-
     @Column({ name: 'admission_type', type: 'varchar', unique: false, nullable: false })
     admissionType: string;
 
@@ -51,4 +46,28 @@ export class ProgramEntity extends CustomBaseEntity {
 
     @Column({ name: 'apply_via', type: 'varchar', unique: false, nullable: false })
     applyVia: string;
+
+    @Column({ name: 'language_of_study', type: 'varchar', unique: false, nullable: false })
+    languageOfStudy: string;
+
+    @Column({ name: 'applicaiton_start_date_summer', type: 'date', unique: false, nullable: true })
+    appStartDateSummer: Date;
+
+    @Column({ name: 'applicaiton_start_date_winter', type: 'date', unique: false, nullable: true })
+    appStartDateWinter: Date;
+
+    @Column({ name: 'applicaiton_end_date_summer', type: 'date', unique: false, nullable: false })
+    appEndDateSummer: Date;
+
+    @Column({ name: 'applicaiton_end_date_winter', type: 'date', unique: false, nullable: false })
+    appEndDateWinter: Date;
+
+    @Column({ name: 'program_duration', type: 'varchar', unique: false, nullable: false })
+    programDuration: string;
+
+    @Column({ name: 'ects', type: 'varchar', unique: false, nullable: false })
+    ects: string;
+
+    @Column({ name: 'selection_procedure', type: 'varchar', unique: false, nullable: false })
+    selectionProcedure: string;
 }

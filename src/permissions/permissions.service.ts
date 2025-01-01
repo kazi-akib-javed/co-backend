@@ -1,27 +1,54 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePermissionDto } from './dto/create-permission.dto';
-import { UpdatePermissionDto } from './dto/update-permission.dto';
+import { isActive, QueryService, SystemException } from 'common';
+import { Repository } from 'typeorm';
+import { PermissionsEntity } from './entities/permissions.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PermissionsService {
-  constructor(){}
-  create(createPermissionDto: CreatePermissionDto) {
-    return 'This action adds a new permission';
+  constructor(
+    @InjectRepository(PermissionsEntity)
+    private readonly permissionsEntityRepository: Repository<PermissionsEntity>,
+    private readonly queryService: QueryService
+  ){}
+  create = async(createPermissionDto: CreatePermissionDto):Promise<CreatePermissionDto> => {
+    try {
+      return await this.queryService.createData(createPermissionDto,this.permissionsEntityRepository);
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all permissions`;
+  findAll = async():Promise<CreatePermissionDto[]>=> {
+    try {
+      return await this.queryService.findAll(this.permissionsEntityRepository, {...isActive});
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} permission`;
+  findOne = async (id: number):Promise<CreatePermissionDto>=> {
+    try {
+      return await this.queryService.findOne(this.permissionsEntityRepository,{id: id, ...isActive})
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 
-  update(id: number, updatePermissionDto: UpdatePermissionDto) {
-    return `This action updates a #${id} permission`;
+  update = async(id: number, dto: CreatePermissionDto):Promise<CreatePermissionDto>=> {
+    try {
+      return await this.queryService.update(dto,this.permissionsEntityRepository,{id: id, ...isActive})
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} permission`;
+  remove = async(id: number):Promise<CreatePermissionDto>=> {
+    try {
+      return await this.queryService.remove(this.permissionsEntityRepository,{id: id, ...isActive});
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 }

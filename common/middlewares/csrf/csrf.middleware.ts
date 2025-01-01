@@ -9,7 +9,6 @@ export class CsrfMiddleware implements NestMiddleware {
     if (!csrfToken || csrfToken !== csrfCookie) {
       throw new HttpException('Invalid CSRF token', HttpStatus.FORBIDDEN);
     }
-
     next();
   }
 }

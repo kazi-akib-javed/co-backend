@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { CreateProgramDto } from './dto/create-program.dto';
-import { UpdateProgramDto } from './dto/update-program.dto';
-import { isActive, QueryService, SystemException } from 'common';
-import { ProgramEntity } from './entities/program.entity';
-import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { isActive, QueryService, SystemException } from 'common';
+import { Repository } from 'typeorm';
+import { CreateProgramDto } from './dto/create-program.dto';
+import { ProgramEntity } from './entities/program.entity';
 
 @Injectable()
 export class ProgramsService {
@@ -23,21 +22,41 @@ export class ProgramsService {
 
   findAll = async (): Promise<CreateProgramDto[]> => {
     try {
-      return this.queryService.findAll<CreateProgramDto, ProgramEntity>(this.programRepository, { ...isActive });
+      return this.queryService.findAll(this.programRepository, { ...isActive });
     } catch (error) {
       throw new SystemException(error);
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} program`;
+  pagination = async(page: number, limit: number): Promise<CreateProgramDto[]> => {
+    try {
+      return this.queryService.pagination(this.programRepository,page,limit,{ ...isActive });
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 
-  update(id: number, updateProgramDto: UpdateProgramDto) {
-    return `This action updates a #${id} program`;
+  findOne = async (id: number):Promise<CreateProgramDto>=> {
+    try {
+      return await this.queryService.findOne(this.programRepository,{id: id, ...isActive });
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} program`;
+  update = async(id: number, dto: CreateProgramDto):Promise<CreateProgramDto>=> {
+    try {
+      return await this.queryService.update(dto,this.programRepository,{id: id, ...isActive });
+    } catch (error) {
+      throw new SystemException(error);
+    }
+  }
+
+  remove = async(id: number):Promise<CreateProgramDto>=> {
+    try {
+      return await this.queryService.remove(this.programRepository,{ ...isActive });
+    } catch (error) {
+      throw new SystemException(error);
+    }
   }
 }

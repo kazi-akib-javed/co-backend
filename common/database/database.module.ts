@@ -2,9 +2,9 @@ import { Global, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersEntity } from "../entities/entities.config";
-import { ProgramEntity } from "src/programs/entities/program.entity";
-import { RoleEntity } from "src/roles/entities/roles.entity";
-import { PermissionEntity } from "src/permissions/entities/permission.entity";
+import { ProgramEntity } from "../../src/programs/entities/program.entity";
+import { RoleEntity } from "../../src/roles/entities/roles.entity";
+import { PermissionsEntity } from "../../src/permissions/entities/permissions.entity";
 
 @Global()
 @Module({
@@ -22,7 +22,7 @@ import { PermissionEntity } from "src/permissions/entities/permission.entity";
         synchronize: configService.get<boolean>('DATABASE_SYNCRONIZE')&&true,
         autoLoadEntities: configService.get<boolean>('DATABASE_AUTOLOADENTITIES')&&true,
         logging: configService.get<boolean>('DATABASE_LOGGING')&&true,
-        entities: [UsersEntity, ProgramEntity, RoleEntity, PermissionEntity],
+        entities: [UsersEntity, ProgramEntity, RoleEntity, PermissionsEntity],
       }),
       inject: [ConfigService],
     }),

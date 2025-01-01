@@ -13,7 +13,8 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { AuthHelperService } from "./helper/auth-helper.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { UsersService } from "src/users/users.service";
+import { UsersService } from "../users/users.service";
+import { CsrfService } from "common/services/csrf.service";
 @Module({
   imports: [TypeOrmModule.forFeature([UsersEntity])],
   controllers: [AuthController],
@@ -28,6 +29,7 @@ import { UsersService } from "src/users/users.service";
     RequestService,
     UsersService,
     ExceptionService,
+    CsrfService
   ],
 })
 export class AuthModule {}

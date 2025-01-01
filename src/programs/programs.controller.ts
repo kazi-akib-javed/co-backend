@@ -1,18 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
   ParseIntPipe,
+  Post,
+  Put,
+  Query
 } from "@nestjs/common";
-import { ProgramsService } from "./programs.service";
-import { CreateProgramDto } from "./dto/create-program.dto";
-import { UpdateProgramDto } from "./dto/update-program.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { DtoValidationPipe } from "common";
+import { CreateProgramDto } from "./dto/create-program.dto";
+import { ProgramsService } from "./programs.service";
 
 @ApiTags('Programs')
 @Controller("programs")
@@ -34,18 +34,30 @@ export class ProgramsController {
     return this.programsService.findAll();
   }
 
+  @ApiBearerAuth()
+  @Get('pagination')
+  pagination(
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number,
+  ):Promise<CreateProgramDto[]>{
+    return this.programsService.pagination(page,limit);
+  }
+
+  @ApiBearerAuth()
   @Get(":id")
-  findOne(@Param("id", ParseIntPipe) id: number) {
+  findOne(@Param("id", ParseIntPipe) id: number): Promise<CreateProgramDto> {
     return this.programsService.findOne(+id);
   }
 
-  @Patch(":id")
-  update(@Param("id", ParseIntPipe) id: number, @Body(DtoValidationPipe) updateProgramDto: UpdateProgramDto) {
-    return this.programsService.update(+id, updateProgramDto);
+  @ApiBearerAuth()
+  @Put(":id")
+  update(@Param("id", ParseIntPipe) id: number, @Body(DtoValidationPipe) dto: CreateProgramDto): Promise<CreateProgramDto> {
+    return this.programsService.update(+id, dto);
   }
 
+  @ApiBearerAuth()
   @Delete(":id")
-  remove(@Param("id", ParseIntPipe) id: number) {
+  remove(@Param("id", ParseIntPipe) id: number): Promise<CreateProgramDto> {
     return this.programsService.remove(+id);
   }
 }
