@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: check creds
+      run: echo DOCKER_USERNAME
     - name: Login Dockerhub
       env:
        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
