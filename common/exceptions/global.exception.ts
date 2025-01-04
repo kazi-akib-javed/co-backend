@@ -14,7 +14,7 @@ export class GlobalExceptionsFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
     // Log the error for debugging
     this.logger.error(
-      `${request.method} ${request.url} - ${exception.status} - ${exception.response.error} - Message:  ${exception.message}`,
+      `${request.method} ${request.url} - ${exception.status} - ${exception?.response?.error} - Message:  ${exception?.message}`,
       exception.stack,
     );
     // Response structure for the client
