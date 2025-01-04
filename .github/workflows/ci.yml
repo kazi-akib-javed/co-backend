@@ -22,4 +22,4 @@ jobs:
     - name: Build the Docker image
       run: docker build -t cicd-pipeline .
     - name: Push to Dockerhub
-      run: docker push ${{secrets.DOCKER_USERNAME}}/cicd-pipeline:latest
+      run: docker push akib6074/cicd-pipeline:latest
