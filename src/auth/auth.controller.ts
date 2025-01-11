@@ -1,7 +1,6 @@
 import { Body, Controller, Post, Query, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { DtoValidationPipe } from "common";
-import { CsrfTokenInterceptor } from "common/interceptors/csrf.interceptor";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
@@ -31,7 +30,6 @@ export class AuthController {
     return this.authService.register(registerDto, authMethod);
   }
 
-  @UseInterceptors(CsrfTokenInterceptor)
   @Post("login")
   login(
     @Body(DtoValidationPipe)

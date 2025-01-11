@@ -87,7 +87,7 @@ export class AuthHelperService {
         .replace(/\\n/g, "\n");
 
       let accessToken = jwt.sign({ ...payload }, privateKEY, {
-        expiresIn: "365d",
+        expiresIn: "30m",
         algorithm: "RS256",
       });
       return Promise.resolve(accessToken);

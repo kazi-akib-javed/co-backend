@@ -9,4 +9,5 @@ export class UserResponseDto extends BaseDto {
     email: string;
     accessToken: string;
     role: string;
+    csrf: string;
   }

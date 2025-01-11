@@ -19,21 +19,7 @@ import { ScraperModule } from './scraper/scraper.module';
 @Module({
   imports: [configTypeorm(),configEnvironment(), configRedis(), AuthModule, UsersModule, RolesModule, PermissionsModule, RolePermissionsModule, ScraperModule, ProgramsModule],
   controllers: [AppController],
-  providers: [AppService,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: ResponseInterceptor,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: PayloadInterceptor
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CsrfTokenInterceptor
-    },
-    RedisService
-  ],
+  providers: [AppService, RedisService],
 })
 export class AppModule {
   constructor(private readonly configService: ConfigService){}
@@ -43,7 +29,6 @@ export class AppModule {
       .apply(AuthMiddleware)
       .exclude(...publicUrls)
       .forRoutes("*");
-      if(this.configService.get<string>('NODE_ENV')==='prod')
       consumer.apply(CsrfMiddleware).exclude(...publicUrls).forRoutes('*');
   }
 }

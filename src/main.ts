@@ -2,11 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { BadRequestException, Logger, ValidationPipe } from '@nestjs/common';
-import { GlobalExceptionsFilter, SystemException } from 'common';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import { CsrfTokenInterceptor, GlobalExceptionsFilter, PayloadInterceptor, ResponseInterceptor, SystemException } from 'common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{cors: true});
+  const app = await NestFactory.create(AppModule,{cors:({origin: 'http://localhost:3000', credentials: true})});
   const configService = app.get(ConfigService);
   const port = configService.get<string>("PORT");
   const swaggerUser = configService.get<string>("SWAGGER_USER");
@@ -18,6 +18,10 @@ async function bootstrap() {
   // Apply the global exception filter
   app.useGlobalFilters(new GlobalExceptionsFilter());
 
+  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new PayloadInterceptor());
+  app.useGlobalInterceptors(new CsrfTokenInterceptor());
+  
   app.useGlobalPipes(
     new ValidationPipe({
       transform: true, // Automatically transform payloads to DTO instances
@@ -48,8 +52,8 @@ async function bootstrap() {
       }),
     );
     const config = new DocumentBuilder()
-      .setTitle('NutritionAI')
-      .setDescription('The Nutrition API description')
+      .setTitle('Co-Backend')
+      .setDescription('API description')
       .setVersion('1.0')
       .addBearerAuth()
       .build();
