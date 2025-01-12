@@ -64,7 +64,7 @@ import { RoleEntity } from 'src/roles/entities/roles.entity';
     @Column({ name: 'address', type: 'varchar', nullable: true })
     address: string;
   
-    @Column({ name: 'phone', type: 'varchar', nullable: true })
+    @Column({ name: 'phone', type: 'varchar', unique: true, nullable: true })
     phone: string;
 
     @OneToOne(()=> RoleEntity)

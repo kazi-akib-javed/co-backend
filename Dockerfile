@@ -10,8 +10,10 @@ RUN yarn install --cache-folder /tmp/.yarn-cache && rm -rf /tmp/.yarn-cache
 
 COPY --chown=node:node . .
 
+RUN yarn build
+
 USER node
 
-EXPOSE 8080
+EXPOSE 4000
 
-CMD [ "yarn", "start:dock" ]
+CMD [ "yarn", "start:prod" ]
