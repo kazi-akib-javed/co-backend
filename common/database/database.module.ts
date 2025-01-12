@@ -22,6 +22,7 @@ import { PermissionsEntity } from "../../src/permissions/entities/permissions.en
         synchronize: configService.get<boolean>('DATABASE_SYNCRONIZE')&&true,
         autoLoadEntities: configService.get<boolean>('DATABASE_AUTOLOADENTITIES')&&true,
         logging: configService.get<boolean>('DATABASE_LOGGING')&&true,
+        ssl: {rejectUnauthorized: false},
         entities: [UsersEntity, ProgramEntity, RoleEntity, PermissionsEntity],
       }),
       inject: [ConfigService],
