@@ -30,11 +30,8 @@ COPY package*.json ./
 # Install dependencies
 RUN yarn install --frozen-lockfile
 
-# Build
-RUN yarn build
-
-# Copy only the build output (dist folder) and necessary files for production
-COPY dist ./dist
+# Copy the rest of the source code
+COPY . .
 
 # Use non-root user for better security
 USER node
