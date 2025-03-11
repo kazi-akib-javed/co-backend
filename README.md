@@ -65,10 +65,8 @@ Create a `env/.env.dev` file and add the following:
 Replce with your env's
 ```
 
-### Database Migration
-```bash
-yarn typeorm migration:run
-```
+### Database Synchronization 
+Since migrations are not used, TypeORM's synchronization feature will automatically synchronize the database schema with the current entities. Ensure the database is correctly set up before starting the application.
 
 ### Start the Application
 ```bash
