@@ -8,7 +8,6 @@ export class PermissionService {
 	constructor(@Inject(REQUEST) private readonly request: Request) {}
 
 	returnRequest = (): UserResponseDto => {
-		const user = this.request["_user"];
-		return user ? JSON.parse(user) : null;
+		return this.request["_user"];
 	};
 }

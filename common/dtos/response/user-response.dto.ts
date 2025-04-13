@@ -7,6 +7,7 @@ export class UserResponseDto extends BaseDto {
     lastName: string;
     roles: '';
     email: string;
+    refreshToken: string;
     accessToken: string;
     role: string;
     csrf: string;

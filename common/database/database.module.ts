@@ -6,12 +6,9 @@ import { ProgramEntity } from "../../src/programs/entities/program.entity";
 import { RoleEntity } from "../../src/roles/entities/roles.entity";
 import { PermissionsEntity } from "../../src/permissions/entities/permissions.entity";
 
-@Global()
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true}),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get<string>('DATABASE_HOST'),
@@ -22,7 +19,7 @@ import { PermissionsEntity } from "../../src/permissions/entities/permissions.en
         synchronize: configService.get<boolean>('DATABASE_SYNCRONIZE')&&true,
         autoLoadEntities: configService.get<boolean>('DATABASE_AUTOLOADENTITIES')&&true,
         logging: configService.get<boolean>('DATABASE_LOGGING')&&true,
-        ssl: {rejectUnauthorized: false},
+        //ssl: {rejectUnauthorized: false},
         entities: [UsersEntity, ProgramEntity, RoleEntity, PermissionsEntity],
       }),
       inject: [ConfigService],

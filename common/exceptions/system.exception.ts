@@ -8,7 +8,7 @@ export class SystemException extends HttpException {
   constructor(error: any) {
     let status = error.status;
     let message = error.message;
-    
+    console.log(error);
     // Check if the error is a validation error
     if (error?.errors) {
       status = HttpStatus.BAD_REQUEST;

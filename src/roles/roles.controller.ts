@@ -2,19 +2,19 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from "@
 import { RolesService } from "./roles.service";
 import { CreateRolesDto } from "./dto/create-roles.dto";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
-import { DtoValidationPipe } from "common";
+import { DtoValidationPipe } from "../../common";
 
 @ApiTags("Roles")
 @Controller("roles")
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
-  @ApiBearerAuth()
+  //@ApiBearerAuth()
   @Get()
   findAll(): Promise<CreateRolesDto[]> {
     return this.rolesService.findAll();
   }
 
-  @ApiBearerAuth()
+  //@ApiBearerAuth()
   @Post()
   create(
     @Body(DtoValidationPipe)
@@ -23,13 +23,13 @@ export class RolesController {
     return this.rolesService.create(createRoleDto);
   }
 
-  @ApiBearerAuth()
+  //@ApiBearerAuth()
   @Get(":id")
   findOne(@Param('id', ParseIntPipe) id: number): Promise<CreateRolesDto> {
     return this.rolesService.findOne(id);
   }
 
-  @ApiBearerAuth()
+  //@ApiBearerAuth()
   @Put(":id")
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -38,7 +38,7 @@ export class RolesController {
     return this.rolesService.update(id, dto);
   }
 
-  @ApiBearerAuth()
+  //@ApiBearerAuth()
   @Delete(":id")
   remove(@Param('id', ParseIntPipe) id: number): Promise<CreateRolesDto> {
     return this.rolesService.remove(id);

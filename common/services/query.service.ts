@@ -1,7 +1,7 @@
 import { Inject, NotFoundException } from '@nestjs/common';
-import { BaseDto } from 'common/dtos/core/base.dto';
-import { CustomBaseEntity } from 'common/entities/custom-base.entity';
-import { SystemException } from 'common/exceptions/system.exception';
+import { BaseDto } from '../../common/dtos/core/base.dto';
+import { CustomBaseEntity } from '../../common/entities/custom-base.entity';
+import { SystemException } from '../../common/exceptions/system.exception';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { ConversionService } from './conversion.service';
 import { RequestService } from './request.service';

@@ -1,4 +1,4 @@
-import { CustomBaseEntity } from "common/entities/entities.config";
+import { CustomBaseEntity } from "../../../common/entities/entities.config";
 import { PermissionsEntity } from "../../permissions/entities/permissions.entity";
 import { Column, Entity, Index, ManyToMany } from "typeorm";
 @Entity({name: 'co_roles', schema: 'public'})

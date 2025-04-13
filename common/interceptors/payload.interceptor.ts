@@ -5,7 +5,7 @@ import {
     NestInterceptor,
     HttpStatus,
 } from '@nestjs/common';
-import { ResponseDto, PayloadDto } from 'common/dtos/dto.config';
+import { ResponseDto, PayloadDto } from '../../common/dtos/dto.config';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -21,13 +21,14 @@ export class PayloadInterceptor<T> implements NestInterceptor<T, ResponseDto> {
                     count = data ? 1 : 0;
                 }
                 const payload = new PayloadDto(count, data);
-                return new ResponseDto(
+                const res = new ResponseDto(
                     new Date().getTime(),
                     HttpStatus.OK,
                     'Successful!',
                     null,
                     payload,
                 );
+                return res;
             }),
         );
     }

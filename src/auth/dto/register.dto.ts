@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsOptional, IsString } from "class-validator";
-import { BaseDto } from "common";
+import { BaseDto } from "../../../common";
 
 export class RegisterDto extends BaseDto{
     @ApiProperty({ default: "Mahadia" })

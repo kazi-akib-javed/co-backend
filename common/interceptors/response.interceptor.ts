@@ -28,6 +28,9 @@ export class ResponseInterceptor implements NestInterceptor {
             if(key == 'password'){
                 delete data[key];
             }
+            if(key == 'refreshToken'){
+                delete data[key];
+            }
           }
           return data;
         } else {

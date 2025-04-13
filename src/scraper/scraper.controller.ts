@@ -7,7 +7,7 @@ import { ScraperService } from "./scraper.service";
 export class ScraperController {
   constructor(private readonly scraperService: ScraperService) {}
 
-  @ApiBearerAuth()
+  //@ApiBearerAuth()
   @Get()
   async getScrapedData() {
     return await this.scraperService.scrapeDAAD();

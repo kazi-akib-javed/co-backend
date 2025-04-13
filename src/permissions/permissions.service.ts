@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePermissionDto } from './dto/create-permission.dto';
-import { isActive, QueryService, SystemException } from 'common';
+import { isActive, QueryService, SystemException } from '../../common';
 import { Repository } from 'typeorm';
 import { PermissionsEntity } from './entities/permissions.entity';
 import { InjectRepository } from '@nestjs/typeorm';

@@ -1,5 +1,5 @@
 
-import { CustomBaseEntity } from "common/entities/entities.config";
+import { CustomBaseEntity } from "../../../common/entities/entities.config";
 import { RoleEntity } from "../../roles/entities/roles.entity";
 import { Column, Entity, Index, JoinTable, ManyToMany } from "typeorm";
 

@@ -6,7 +6,7 @@ import {
     OneToOne,
   } from 'typeorm';
   import { CustomBaseEntity } from './custom-base.entity';
-import { RoleEntity } from 'src/roles/entities/roles.entity';
+import { RoleEntity } from '../../src/roles/entities/roles.entity';
   
   @Entity({ name: 'co_users', schema: 'public' })
   @Index(['id', 'email'])
@@ -43,6 +43,14 @@ import { RoleEntity } from 'src/roles/entities/roles.entity';
       nullable: true,
     })
     resetPasswordToken: string;
+
+    @Column({
+      name: 'refresh_token',
+      type: 'varchar',
+      unique: false,
+      nullable: true,
+    })
+    refreshToken: string;
   
     @Column({
       name: 'reset_password_validity',

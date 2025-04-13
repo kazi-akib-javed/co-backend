@@ -1,6 +1,6 @@
 import { Inject } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { SystemException } from "common/exceptions/system.exception"
+import { SystemException } from "../../common/exceptions/system.exception"
 import { BcryptService } from "./bcrypt.service";
 
 export class OtpService {

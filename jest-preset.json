@@ -1,0 +1,17 @@
+{
+    "preset": "@nestjs/testing",
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.json"
+      }
+    },
+    "moduleFileExtensions": ["js", "json", "ts"],
+    "testMatch": ["**/test/**/*.e2e-spec.ts"],
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "collectCoverageFrom": ["src/**/*.ts"],
+    "coverageDirectory": "./coverage"
+  }
+  

@@ -72,6 +72,13 @@ export class CreateUserDto extends BaseDto {
   resetPasswordToken: string;
 
   @ApiProperty({
+    description: 'This is refreshtoken of a user',
+  })
+  @IsString()
+  @IsOptional()
+  refreshToken: string;
+
+  @ApiProperty({
     description: 'This is resetpasswordvalidity of a user',
   })
   @IsOptional()

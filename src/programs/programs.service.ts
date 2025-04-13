@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { isActive, QueryService, SystemException } from 'common';
+import { isActive, QueryService, SystemException } from '../../common';
 import { Repository } from 'typeorm';
 import { CreateProgramDto } from './dto/create-program.dto';
 import { ProgramEntity } from './entities/program.entity';

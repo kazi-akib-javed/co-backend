@@ -7,6 +7,7 @@ import { PermissionService } from "./permission.service";
 import { QueryService } from './query.service';
 import { OtpService } from './otp.service';
 import { RedisService } from './redis.service';
+import { TokenService } from './token.service';
 
 export {
 	ResponseService,
@@ -18,4 +19,5 @@ export {
 	QueryService,
 	OtpService,
 	RedisService,
+	TokenService
 };

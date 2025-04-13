@@ -1,4 +1,4 @@
-import { ResponseDto, SystemException, UserResponseDto } from "common";
+import { ResponseDto, SystemException, UserResponseDto } from "../../../common";
 import { AuthDto } from "../dto/auth.dto";
 import { AuthHelperService } from "./auth-helper.service";
 import { RegisterDto } from "../dto/register.dto";

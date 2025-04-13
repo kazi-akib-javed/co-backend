@@ -3,13 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
   BcryptService,
-  ConversionService,
-  ExceptionService,
-  isActive,
-  PermissionService,
-  QueryService,
+  ConversionService, isActive, QueryService,
   SystemException,
-  UsersEntity,
+  UsersEntity
 } from '../../common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthDto } from 'src/auth/dto/auth.dto';
@@ -21,7 +17,6 @@ export class UsersService {
     private readonly usersRepository: Repository<UsersEntity>,
     private readonly conversionService: ConversionService,
     private readonly queryService: QueryService,
-    private readonly permissionService: PermissionService,
     private readonly bcryptService: BcryptService
   ) {}
 

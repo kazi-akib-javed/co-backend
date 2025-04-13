@@ -1,33 +1,37 @@
 import { HttpStatus, Injectable, Logger } from "@nestjs/common";
-import * as jwt from "jsonwebtoken";
 import {
   BcryptService,
   QueryService,
   RedisService,
   SystemException,
+  TokenService,
   UserResponseDto,
   UsersEntity,
-} from "common";
+} from "../../../common";
 import { CreateUserDto } from "../../users/dto/create-user.dto";
-import { ConfigService } from "@nestjs/config";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersService } from "../../users/users.service";
 import { Repository } from "typeorm";
 import { AuthDto } from "../dto/auth.dto";
 import { RegisterDto } from "../dto/register.dto";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class AuthHelperService {
   private readonly logger = new Logger(AuthHelperService.name);
+  access_token_ttl: number;
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
     private readonly bcryptService: BcryptService,
-    private readonly configService: ConfigService,
-    private readonly redisService: RedisService,
     private readonly queryService: QueryService,
-    private readonly userService: UsersService
-  ) {}
+    private readonly userService: UsersService,
+    private readonly tokenService: TokenService,
+    private readonly redisService: RedisService,
+    private readonly configService: ConfigService
+  ) {
+    this.access_token_ttl = this.configService.get<number>('ACCESS_TOKEN_TTL');
+  }
   generatePayload = async (
     userDto: CreateUserDto
   ): Promise<UserResponseDto> => {
@@ -49,8 +53,11 @@ export class AuthHelperService {
     try {
       //const randomPassword = await this.otpService.randomPasswordGenerator();
       const user = await this.userService.findUserByEmail(registerDto.email);
-      if(user){
-        throw new SystemException({status: HttpStatus.BAD_REQUEST, message: 'User already exists!'});
+      if (user) {
+        throw new SystemException({
+          status: HttpStatus.BAD_REQUEST,
+          message: "User already exists!",
+        });
       }
       registerDto.password = await this.bcryptService.hashPassword(
         registerDto.password
@@ -69,30 +76,31 @@ export class AuthHelperService {
     try {
       const validateUser = await this.userService.validateUser(authDto);
       const payload = await this.generatePayload(validateUser);
-      const accessToken = await this.generateToken(payload);
-      payload.accessToken = accessToken;
-      //set sesstion in redis
-      await this.redisService.set(accessToken, JSON.stringify(payload), 3600);
-      payload.accessToken = accessToken;
-      return Promise.resolve(payload);
+      return await this.issueToken(payload);
     } catch (error) {
       throw new SystemException(error);
     }
   };
 
-  generateToken = async (payload: UserResponseDto): Promise<string> => {
+  issueToken = async(payload: UserResponseDto): Promise<UserResponseDto> => {
     try {
-      const privateKEY = this.configService
-        .get("PRIVATE_KEY")
-        .replace(/\\n/g, "\n");
-
-      let accessToken = jwt.sign({ ...payload }, privateKEY, {
-        expiresIn: "30m",
-        algorithm: "RS256",
-      });
-      return Promise.resolve(accessToken);
+      //generate refresh token
+      const refresh_token = await this.tokenService.generateRefreshToken(
+        payload
+      );
+      //update refresh token in DB
+      await this.usersRepository.update(payload?.id,{refreshToken: refresh_token});
+      //set refresh token in payload
+      payload.refreshToken = refresh_token;
+      //generate access token
+      const access_token = await this.tokenService.generateAccessToken(payload);
+      //set access token in payload
+      payload.accessToken = access_token;
+      //set sesstion in redis
+      await this.redisService.set(access_token, JSON.stringify(payload), this.access_token_ttl);
+      return payload;
     } catch (error) {
       throw new SystemException(error);
     }
-  };
+  }
 }

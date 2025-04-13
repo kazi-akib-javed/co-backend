@@ -1,4 +1,4 @@
-import { CustomBaseEntity } from "common";
+import { CustomBaseEntity } from "../../../common/entities/custom-base.entity";
 import { Column, Entity, Index } from "typeorm";
 import { ProgramsInterface } from "../interface/programs.interface";
 

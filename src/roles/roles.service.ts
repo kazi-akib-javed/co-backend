@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { isActive, QueryService } from 'common';
+import { isActive, QueryService } from '../../common';
 import { CreateRolesDto } from './dto/create-roles.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RoleEntity } from './entities/roles.entity';
 import { Repository } from 'typeorm';
-import { UpdateRolesDto } from './dto/update-roles.dto';
 
 @Injectable()
 export class RolesService {

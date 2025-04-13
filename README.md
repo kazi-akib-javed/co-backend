@@ -76,9 +76,206 @@ yarn start:dev
 The server will run on `http://localhost:{env-port}`.
 
 ## API Endpoints
-- **POST /api/auth/register** - Register a new user
-- **POST /api/auth/login** - Authenticate and get a JWT token
-- **GET /api/programs/pagination** - Search for universities based on criteria
+
+### Authentication
+
+- **POST /api/auth/register**
+  - **Description**: Register a new user
+  - **Request Body**: 
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "your_password"
+    }
+    ```
+  - **Response**:
+    - 201 Created: Registration successful
+    - 400 Bad Request: Invalid data
+  - **Status Codes**: 201, 400
+
+- **POST /api/auth/login**
+  - **Description**: Authenticate and get a JWT token
+  - **Request Body**: 
+    ```json
+    {
+      "email": "user@example.com",
+      "password": "your_password"
+    }
+    ```
+  - **Response**:
+    - 200 OK: Token successfully generated
+    - 401 Unauthorized: Invalid credentials
+  - **Status Codes**: 200, 401
+
+- **POST /api/auth/logout**
+  - **Description**: Log out the current user
+  - **Response**:
+    - 200 OK: Successfully logged out
+  - **Status Codes**: 200
+
+### Users
+
+- **GET /api/users**
+  - **Description**: Retrieve a list of users
+  - **Response**:
+    - 200 OK: List of users
+  - **Status Codes**: 200
+
+### Roles
+
+- **GET /api/roles**
+  - **Description**: Retrieve a list of roles
+  - **Response**:
+    - 200 OK: List of roles
+  - **Status Codes**: 200
+
+- **POST /api/roles**
+  - **Description**: Create a new role
+  - **Request Body**:
+    ```json
+    {
+      "role_name": "admin"
+    }
+    ```
+  - **Response**:
+    - 201 Created: Role successfully created
+  - **Status Codes**: 201
+
+- **GET /api/roles/:id**
+  - **Description**: Retrieve details of a specific role
+  - **Response**:
+    - 200 OK: Role details
+  - **Status Codes**: 200
+
+- **PUT /api/roles/:id**
+  - **Description**: Update a specific role
+  - **Request Body**:
+    ```json
+    {
+      "role_name": "new_role_name"
+    }
+    ```
+  - **Response**:
+    - 200 OK: Role updated successfully
+  - **Status Codes**: 200
+
+- **DELETE /api/roles/:id**
+  - **Description**: Delete a specific role
+  - **Response**:
+    - 204 No Content: Role deleted successfully
+  - **Status Codes**: 204
+
+### Permissions
+
+- **POST /api/permissions**
+  - **Description**: Create a new permission
+  - **Request Body**:
+    ```json
+    {
+      "permission_name": "can_edit"
+    }
+    ```
+  - **Response**:
+    - 201 Created: Permission successfully created
+  - **Status Codes**: 201
+
+- **GET /api/permissions**
+  - **Description**: Retrieve a list of permissions
+  - **Response**:
+    - 200 OK: List of permissions
+  - **Status Codes**: 200
+
+- **GET /api/permissions/:id**
+  - **Description**: Retrieve details of a specific permission
+  - **Response**:
+    - 200 OK: Permission details
+  - **Status Codes**: 200
+
+- **PUT /api/permissions/:id**
+  - **Description**: Update a specific permission
+  - **Request Body**:
+    ```json
+    {
+      "permission_name": "new_permission_name"
+    }
+    ```
+  - **Response**:
+    - 200 OK: Permission updated successfully
+  - **Status Codes**: 200
+
+- **DELETE /api/permissions/:id**
+  - **Description**: Delete a specific permission
+  - **Response**:
+    - 204 No Content: Permission deleted successfully
+  - **Status Codes**: 204
+
+### Role Permissions
+
+- **GET /api/role-permissions**
+  - **Description**: Retrieve a list of role permissions
+  - **Response**:
+    - 200 OK: List of role permissions
+  - **Status Codes**: 200
+
+### Scraper
+
+- **GET /api/scraper**
+  - **Description**: Scrape data (e.g., universities, programs)
+  - **Response**:
+    - 200 OK: Data successfully scraped
+  - **Status Codes**: 200
+
+### Programs
+
+- **POST /api/programs**
+  - **Description**: Create a new program
+  - **Request Body**:
+    ```json
+    {
+      "program_name": "Computer Science"
+    }
+    ```
+  - **Response**:
+    - 201 Created: Program successfully created
+  - **Status Codes**: 201
+
+- **GET /api/programs**
+  - **Description**: Retrieve a list of programs
+  - **Response**:
+    - 200 OK: List of programs
+  - **Status Codes**: 200
+
+- **GET /api/programs/pagination**
+  - **Description**: Paginate through programs
+  - **Query Parameters**: `page`, `limit`
+  - **Response**:
+    - 200 OK: Paginated list of programs
+  - **Status Codes**: 200
+
+- **GET /api/programs/:id**
+  - **Description**: Retrieve details of a specific program
+  - **Response**:
+    - 200 OK: Program details
+  - **Status Codes**: 200
+
+- **PUT /api/programs/:id**
+  - **Description**: Update a specific program
+  - **Request Body**:
+    ```json
+    {
+      "program_name": "Updated Program Name"
+    }
+    ```
+  - **Response**:
+    - 200 OK: Program updated successfully
+  - **Status Codes**: 200
+
+- **DELETE /api/programs/:id**
+  - **Description**: Delete a specific program
+  - **Response**:
+    - 204 No Content: Program deleted successfully
+  - **Status Codes**: 204
+
 
 ## License
 This project is licensed under the MIT License.
