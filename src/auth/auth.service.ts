@@ -44,7 +44,7 @@ export class AuthService {
   register = async (
     registerDto: RegisterDto,
     authMethod: AUTH_METHOD
-  ): Promise<RegisterDto> => {
+  ): Promise<UserResponseDto> => {
     try {
       const gateway = this.authGateway[authMethod];
       if (!gateway) {

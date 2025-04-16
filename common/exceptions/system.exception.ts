@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
 import { ErrorDto } from '../dtos/response/error.dto';
 import { FieldErrorDto } from '../dtos/response/field-error.dto';
 import { ResponseDto } from '../dtos/response/response.dto';

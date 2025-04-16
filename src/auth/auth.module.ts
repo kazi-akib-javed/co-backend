@@ -16,9 +16,8 @@ import { AuthHelperService } from "./helper/auth-helper.service";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersService } from "../users/users.service";
 import { PassportModule } from "@nestjs/passport";
-import { JwtModule } from "@nestjs/jwt";
 @Module({
-  imports: [PassportModule, JwtModule.register({}), TypeOrmModule.forFeature([UsersEntity])],
+  imports: [PassportModule, TypeOrmModule.forFeature([UsersEntity])],
   controllers: [AuthController],
   providers: [
     AuthService,

@@ -6,7 +6,7 @@ import { ResponseDto } from "../../dtos/response/response.dto";
 import { SystemErrorDto } from "../../dtos/response/system-error.dto";
 import { RedisService } from "../../../common/services/redis.service";
 import { TokenService } from "../../../common/services/token.service";
-import { SystemException } from "common/exceptions/system.exception";
+import { SystemException } from "../../../common/exceptions/system.exception";
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {

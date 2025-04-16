@@ -15,7 +15,6 @@ export class UsersService {
   constructor(
     @InjectRepository(UsersEntity)
     private readonly usersRepository: Repository<UsersEntity>,
-    private readonly conversionService: ConversionService,
     private readonly queryService: QueryService,
     private readonly bcryptService: BcryptService
   ) {}
@@ -42,17 +41,12 @@ export class UsersService {
       throw new SystemException(error);
     }
   };
-  //----------------------------------helpers------------------------------------
+
   findUserByEmail = async (
     emailOrUserName: string,
   ): Promise<CreateUserDto> => {
     try {
-      const user = await this.usersRepository.findOne({
-        where: { email: emailOrUserName, ...isActive },
-      });
-      return await this.conversionService.toDto<UsersEntity, CreateUserDto>(
-        user,
-      );
+      return await this.queryService.findOne<CreateUserDto, UsersEntity>(this.usersRepository,{ email: emailOrUserName});
     } catch (error) {
       throw new SystemException(error);
     }

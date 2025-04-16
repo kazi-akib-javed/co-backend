@@ -1,6 +1,6 @@
 import { Body, Controller, Post, Query, Req, Res, UseInterceptors } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { CsrfTokenInterceptor, DtoValidationPipe, TokenService } from "../../common";
+import { CsrfTokenInterceptor, DtoValidationPipe, TokenService, UserResponseDto } from "../../common";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
@@ -32,7 +32,7 @@ export class AuthController {
     @Body(DtoValidationPipe)
     registerDto: RegisterDto,
     @Query("type") authMethod: AUTH_METHOD
-  ) {
+  ): Promise<UserResponseDto> {
     return this.authService.register(registerDto, authMethod);
   }
 
@@ -43,7 +43,7 @@ export class AuthController {
     authDto: AuthDto,
     @Query("authMethod") authMethod: AUTH_METHOD,
     @Res({ passthrough: true }) res: Response
-  ) {
+  ): Promise<UserResponseDto> {
     const payload = await this.authService.login(authDto, authMethod);
     res.cookie("refresh_token", payload.refreshToken, {
       httpOnly: true,
@@ -55,7 +55,7 @@ export class AuthController {
   }
 
   @Post("refresh-token")
-  async refreshToken(@Req() req: Request, @Res() res: Response) {
+  async refreshToken(@Req() req: Request, @Res() res: Response): Promise<UserResponseDto| any> {
     const cookies = this.tokenService.parseCookies(req);
     const refreshToken = cookies['refresh_token'];
     if (!refreshToken) {
