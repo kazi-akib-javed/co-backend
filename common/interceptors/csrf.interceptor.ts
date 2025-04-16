@@ -13,9 +13,9 @@ export class CsrfTokenInterceptor implements NestInterceptor {
       const csrfToken = crypto.randomBytes(32).toString('hex');
 
       response.cookie('csrftoken', csrfToken, {
-        httpOnly: false,
+        httpOnly: true,
         secure: true, // Use true for HTTPS
-        sameSite: 'Strict',
+        sameSite: 'none',
       });
     }
     return next.handle();

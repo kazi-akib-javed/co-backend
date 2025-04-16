@@ -21,7 +21,6 @@ async function bootstrap() {
   app.useGlobalFilters(new GlobalExceptionsFilter());
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalInterceptors(new PayloadInterceptor());
-  app.useGlobalInterceptors(new CsrfTokenInterceptor());
   
   app.useGlobalPipes(
     new ValidationPipe({

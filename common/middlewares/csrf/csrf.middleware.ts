@@ -9,11 +9,12 @@ export class CsrfMiddleware implements NestMiddleware {
     const csrfTokenFromCookie = cookies?.csrftoken; // Access the csrf token from the cookies
 
     // Get csrf token from the header
-    const csrfTokenFromHeader = req.headers["x-csrf-token"];
+    const csrfTokenFromHeader = req.headers.cookie?.split('csrftoken=')[1]?.split(';')[0]; // Extract the csrf token from the header
 
     // Compare both tokens and respond accordingly
     if (!csrfTokenFromCookie || csrfTokenFromCookie !== csrfTokenFromHeader) {
-      return res.status(403).json({ message: "Invalid CSRF token" });
+      console.error("CSRF token mismatch");
+      return res.status(403).send({ message: "Invalid CSRF token" });
     }
     
     next();

@@ -24,6 +24,24 @@ export class UsersService {
     return await this.queryService.findAll(this.usersRepository);
   }
 
+  findOne = async (id: number): Promise<CreateUserDto> => {
+    try {
+      return await this.queryService.findOne<CreateUserDto, UsersEntity>(this.usersRepository, { id: id });
+    } catch (error) {
+      throw new SystemException(error);
+    }
+  };
+
+  updateUser = async (
+    id: number,
+    dto: CreateUserDto | any,
+  ): Promise<CreateUserDto> => {
+    try {
+      return await this.queryService.update(dto,this.usersRepository,{id: id});
+    } catch (error) {
+      throw new SystemException(error);
+    }
+  };
   //----------------------------------helpers------------------------------------
   findUserByEmail = async (
     emailOrUserName: string,

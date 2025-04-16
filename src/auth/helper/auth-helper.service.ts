@@ -82,15 +82,18 @@ export class AuthHelperService {
     }
   };
 
-  issueToken = async(payload: UserResponseDto): Promise<UserResponseDto> => {
+  issueToken = async(_payload: UserResponseDto): Promise<UserResponseDto> => {
     try {
       //generate refresh token
       const refresh_token = await this.tokenService.generateRefreshToken(
-        payload
+        _payload
       );
       //update refresh token in DB
-      await this.usersRepository.update(payload?.id,{refreshToken: refresh_token});
-      //set refresh token in payload
+      const user = await this.userService.findOne(_payload?.id);
+      user.refreshToken = refresh_token;
+      await this.userService.updateUser(_payload?.id, user);
+
+      const payload = await this.generatePayload(user);
       payload.refreshToken = refresh_token;
       //generate access token
       const access_token = await this.tokenService.generateAccessToken(payload);

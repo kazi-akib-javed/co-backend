@@ -1,6 +1,6 @@
-import { Body, Controller, Post, Query, Req, Res } from "@nestjs/common";
+import { Body, Controller, Post, Query, Req, Res, UseInterceptors } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { DtoValidationPipe, TokenService } from "../../common";
+import { CsrfTokenInterceptor, DtoValidationPipe, TokenService } from "../../common";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import { RegisterDto } from "./dto/register.dto";
@@ -36,6 +36,7 @@ export class AuthController {
     return this.authService.register(registerDto, authMethod);
   }
 
+  @UseInterceptors(CsrfTokenInterceptor)
   @Post("login")
   async login(
     @Body(DtoValidationPipe)

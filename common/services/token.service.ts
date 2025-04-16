@@ -53,14 +53,13 @@ export class TokenService {
         const decodedToken = jwt.verify(token, publicKey, {
           algorithms: ["RS256"],
         }) as jwt.JwtPayload;
-        this.logger.warn("Decoded Token: ", decodedToken);
       } catch (error) {
         throw new SystemException(error);
       }
     }
 
     parseCookies = (req: Request): Record<string, string> => {
-        const cookieHeader = req.headers.get("cookie");
+        const cookieHeader = req.headers['cookie'] as string;
         if (!cookieHeader) {
           return {};
         }

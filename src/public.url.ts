@@ -7,4 +7,5 @@ export const publicUrls = [
   { path: "/auth/register", method: RequestMethod.POST },
   { path: "/auth/google", method: RequestMethod.GET },
   { path: "/auth/google/redirect", method: RequestMethod.GET },
+  { path: "/auth/refresh-token", method: RequestMethod.POST}
 ];

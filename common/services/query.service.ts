@@ -75,7 +75,7 @@ export class QueryService {
         try {
             const updateDto = this.requestService.forUpdate(dto);
             const savedData = await this.findOne(repository,options); //await repository.findOne({where: [options]});
-            const dtoToEntity = await this.conversionService.toEntity<E,D>({...savedData,...updateDto});
+            const dtoToEntity = await this.conversionService.toEntity<E,D>({...savedData, ...updateDto});
             const updateData = await repository.save(dtoToEntity,{reload: true});
             return this.conversionService.toDto<E,D>(updateData);
         } catch (error) {
