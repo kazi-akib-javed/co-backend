@@ -15,7 +15,7 @@ import { PermissionsEntity } from "../../src/permissions/entities/permissions.en
         port: +configService.get<number>('DATABASE_PORT'),
         username: configService.get<string>('DATABASE_USER'),
         password: configService.get<string>('DATABASE_PASSWORD'),
-        database: configService.get<string>('DATABASE_DB'),
+        database: configService.get<string>('DATABASE_DB_TEST'),
         synchronize: configService.get<boolean>('DATABASE_SYNCRONIZE')&&true,
         autoLoadEntities: configService.get<boolean>('DATABASE_AUTOLOADENTITIES')&&true,
         logging: configService.get<boolean>('DATABASE_LOGGING')&&false,

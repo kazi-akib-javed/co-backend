@@ -11,23 +11,23 @@ export class RolesService {
     @InjectRepository(RoleEntity)
     private readonly roleRepository: Repository<RoleEntity>,
   ){}
-  findAll = async (): Promise<CreateRolesDto[]> => {
+  async findAll(): Promise<CreateRolesDto[]> {
     return await this.queryService.findAll(this.roleRepository,{...isActive});
   };
 
-  create = async (dto: CreateRolesDto): Promise<CreateRolesDto> => {
+  async create (dto: CreateRolesDto): Promise<CreateRolesDto> {
     return await this.queryService.createData(dto,this.roleRepository);
   }
   
-  findOne = async (id: number): Promise<CreateRolesDto> => {
+  async findOne(id: number): Promise<CreateRolesDto> {
     return await this.queryService.findOne(this.roleRepository,{id: id, ...isActive});
   }
 
-  update = async(id: number, dto: CreateRolesDto): Promise<CreateRolesDto> => {
+  async update(id: number, dto: CreateRolesDto): Promise<CreateRolesDto> {
     return await this.queryService.update(dto,this.roleRepository,{id: id, ...isActive});
   }
 
-  remove = async(id: number): Promise<CreateRolesDto> => {
+  async remove(id: number): Promise<CreateRolesDto> {
     return await this.queryService.remove(this.roleRepository,{id: id, ...isActive});
   }
 }
