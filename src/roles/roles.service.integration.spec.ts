@@ -5,9 +5,8 @@ import { RolesService } from "./roles.service";
 import { RoleEntity } from "./entities/roles.entity";
 import { CreateRolesDto } from "./dto/create-roles.dto";
 import { DataSource, Repository } from "typeorm";
-import { ConfigModule, ConfigService } from "@nestjs/config";
-import { PermissionsEntity } from "../permissions/entities/permissions.entity";
 import { randomUUID } from 'crypto';
+import { TypeOrmTestModule } from "../test-utils/typeorm-test.module";
 
 describe("RolesService (Integration)", () => {
   let service: RolesService = {} as RolesService;
@@ -31,24 +30,7 @@ describe("RolesService (Integration)", () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        ConfigModule.forRoot({ isGlobal: true, envFilePath: `env/.env.dev` }),
-        TypeOrmModule.forRootAsync({
-          useFactory: (configService: ConfigService) => ({
-            type: "postgres",
-            host: configService.get<string>("DATABASE_HOST"),
-            port: +configService.get<number>("DATABASE_PORT"),
-            username: configService.get<string>("DATABASE_USER"),
-            password: configService.get<string>("DATABASE_PASSWORD"),
-            database: configService.get<string>("DATABASE_DB_TEST"),
-            synchronize:
-              configService.get<boolean>("DATABASE_SYNCRONIZE") && true,
-            autoLoadEntities:
-              configService.get<boolean>("DATABASE_AUTOLOADENTITIES") && true,
-            logging: configService.get<boolean>("DATABASE_LOGGING") && false,
-            entities: [PermissionsEntity, RoleEntity],
-          }),
-          inject: [ConfigService],
-        }),
+        TypeOrmTestModule,
         TypeOrmModule.forFeature([RoleEntity]),
       ],
       providers: [
