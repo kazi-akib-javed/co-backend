@@ -1,8 +1,8 @@
-import { Global, Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { Module } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersEntity } from "../entities/entities.config";
-import { ProgramEntity } from "../../src/programs/entities/programs.entity";
+import { ProgramsEntity } from "../../src/programs/entities/programs.entity";
 import { RoleEntity } from "../../src/roles/entities/roles.entity";
 import { PermissionsEntity } from "../../src/permissions/entities/permissions.entity";
 
@@ -20,7 +20,7 @@ import { PermissionsEntity } from "../../src/permissions/entities/permissions.en
         autoLoadEntities: configService.get<boolean>('DATABASE_AUTOLOADENTITIES')&&true,
         logging: configService.get<boolean>('DATABASE_LOGGING')&&false,
         //ssl: {rejectUnauthorized: false},
-        entities: [UsersEntity, ProgramEntity, RoleEntity, PermissionsEntity],
+        entities: [UsersEntity, ProgramsEntity, RoleEntity, PermissionsEntity],
       }),
       inject: [ConfigService],
     }),
