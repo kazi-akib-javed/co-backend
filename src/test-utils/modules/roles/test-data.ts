@@ -1,0 +1,53 @@
+import { CreateProgramDto } from "../../../programs/dto/create-program.dto";
+
+export class RolesTestData {
+  programOneDto: CreateProgramDto = {
+    university: "Test University",
+    location: "Test Location",
+    degreeType: "Bachelor",
+    subject: "Computer Science",
+    requiredDegree: "High School",
+    tuitionFee: "$10000",
+    requiredGpa: "3.0",
+    englishLanguageTestScore: "TOEFL 90",
+    germanLanguageTestScore: "B2",
+    greScore: "300",
+    admissionType: "Regular",
+    admissionSession: "Fall",
+    courseWebsite: "http://example.com/course",
+    applyVia: "Online",
+    languageOfStudy: "English",
+    appStartDateSummer: new Date("2023-04-01").toISOString().split("T")[0] as unknown,
+    appStartDateWinter: new Date("2023-10-01").toISOString().split("T")[0] as unknown,
+    appEndDateSummer: new Date("2023-09-30").toISOString().split("T")[0] as unknown,
+    appEndDateWinter: new Date("2024-03-31").toISOString().split("T")[0] as unknown,
+    programDuration: "2 years",
+    ects: "180",
+    selectionProcedure: "Interview",
+  } as CreateProgramDto;
+
+  programTwoDto: CreateProgramDto = {
+    university: "University B",
+    location: "Location B",
+    degreeType: "Master",
+    subject: "Data Science",
+    requiredDegree: "Bachelor's Degree",
+    tuitionFee: "$20000",
+    requiredGpa: "3.5",
+    englishLanguageTestScore: "IELTS 7.0",
+    germanLanguageTestScore: "C1",
+    greScore: "320",
+    admissionType: "Regular",
+    admissionSession: "Spring",
+    courseWebsite: "http://example.com/courseB",
+    applyVia: "Online",
+    languageOfStudy: "English and German",
+    appStartDateSummer: new Date("2023-04-01").toISOString().split("T")[0] as unknown,
+    appStartDateWinter: new Date("2023-10-01").toISOString().split("T")[0] as unknown,
+    appEndDateSummer: new Date("2023-09-30").toISOString().split("T")[0] as unknown,
+    appEndDateWinter: new Date("2024-03-31").toISOString().split("T")[0] as unknown,
+    programDuration: "2 years",
+    ects: "180",
+    selectionProcedure: "Interview",
+  } as CreateProgramDto;
+}

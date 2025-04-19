@@ -39,7 +39,7 @@ export class ProgramsController {
   pagination(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
-  ):Promise<CreateProgramDto[]>{
+  ):Promise<[CreateProgramDto[],Number]>{
     return this.programsService.pagination(page,limit);
   }
 

@@ -6,7 +6,7 @@ import { RoleEntity } from "./entities/roles.entity";
 import { CreateRolesDto } from "./dto/create-roles.dto";
 import { DataSource, Repository } from "typeorm";
 import { randomUUID } from 'crypto';
-import { TypeOrmTestModule } from "../test-utils/typeorm-test.module";
+import { TypeOrmTestModule } from "../test-utils/database/typeorm-test.module";
 
 describe("RolesService (Integration)", () => {
   let service: RolesService = {} as RolesService;

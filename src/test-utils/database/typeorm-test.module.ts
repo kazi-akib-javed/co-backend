@@ -1,10 +1,10 @@
 // src/test-utils/typeorm-test.module.ts
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersEntity } from '../../common';
-import { ProgramEntity } from '../programs/entities/program.entity';
-import { PermissionsEntity } from '../permissions/entities/permissions.entity';
-import { RoleEntity } from '../roles/entities/roles.entity';
+import { UsersEntity } from '../../../common';
+import { ProgramsEntity } from '../../programs/entities/programs.entity';
+import { PermissionsEntity } from '../../permissions/entities/permissions.entity';
+import { RoleEntity } from '../../roles/entities/roles.entity';
 
 
 export const TypeOrmTestModule = TypeOrmModule.forRootAsync({
@@ -19,7 +19,7 @@ export const TypeOrmTestModule = TypeOrmModule.forRootAsync({
     synchronize: configService.get<boolean>('DATABASE_SYNCRONIZE') || true,
     autoLoadEntities: configService.get<boolean>('DATABASE_AUTOLOADENTITIES') || true,
     logging: false,
-    entities: [UsersEntity, ProgramEntity ,PermissionsEntity, RoleEntity], // add your test entities
+    entities: [UsersEntity, ProgramsEntity ,PermissionsEntity, RoleEntity], // add your test entities
   }),
   inject: [ConfigService],
 });

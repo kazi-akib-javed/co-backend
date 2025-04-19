@@ -34,8 +34,8 @@ export class ConversionService {
     rawData: [T[], number]
   ): Promise<[U[], number]> {
     const entities = rawData[0];
-    const total = rawData[1];
+    const length = rawData[1];
     const dtos: U[] = <U[]>(<unknown[]>entities);
-    return Promise.resolve([dtos, total]);
+    return Promise.resolve([dtos, length]);
   }
 }

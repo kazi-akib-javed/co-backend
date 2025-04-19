@@ -3,14 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { isActive, QueryService, SystemException } from '../../common';
 import { Repository } from 'typeorm';
 import { CreateProgramDto } from './dto/create-program.dto';
-import { ProgramEntity } from './entities/program.entity';
+import { ProgramsEntity } from './entities/programs.entity';
 
 @Injectable()
 export class ProgramsService {
   constructor(
     private readonly queryService: QueryService,
-    @InjectRepository(ProgramEntity)
-    private readonly programRepository: Repository<ProgramEntity>
+    @InjectRepository(ProgramsEntity)
+    private readonly programRepository: Repository<ProgramsEntity>
   ){}
   create = (createProgramDto: CreateProgramDto): Promise<CreateProgramDto> => {
     try {
@@ -28,7 +28,7 @@ export class ProgramsService {
     }
   }
 
-  pagination = async(page: number, limit: number): Promise<CreateProgramDto[]> => {
+  pagination = async(page: number, limit: number): Promise<[CreateProgramDto[], Number]> => {
     try {
       return this.queryService.pagination(this.programRepository,page,limit,{ ...isActive });
     } catch (error) {

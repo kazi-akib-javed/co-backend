@@ -4,7 +4,7 @@ import { ProgramsInterface } from "../interface/programs.interface";
 
 @Entity({ name: 'co_programs', schema: 'public'})
 @Index(['id'])
-export class ProgramEntity extends CustomBaseEntity implements ProgramsInterface {
+export class ProgramsEntity extends CustomBaseEntity implements ProgramsInterface {
     @Column({ name: 'university', type: 'varchar', unique: true, nullable: false })
     university: string;
 

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from "@nestjs/testing";
 import { ProgramsController } from "./programs.controller";
 import { ProgramsService } from "./programs.service";
-import { ProgramEntity } from "./entities/program.entity";
+import { ProgramsEntity } from "./entities/programs.entity";
 import { getRepositoryToken } from "@nestjs/typeorm";
 import { QueryService } from "../../common";
 
@@ -16,7 +16,7 @@ describe("ProgramsController", () => {
       providers: [
         ProgramsService,
         {
-          provide: getRepositoryToken(ProgramEntity),
+          provide: getRepositoryToken(ProgramsEntity),
           useValue: mockRepository,
         },
         {

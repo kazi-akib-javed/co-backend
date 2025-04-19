@@ -5,6 +5,7 @@ import { SystemException } from '../../common/exceptions/system.exception';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { ConversionService } from './conversion.service';
 import { RequestService } from './request.service';
+import e from 'express';
 
 interface Options {
     [field: string]: any;
@@ -47,11 +48,12 @@ export class QueryService {
         }
     }
 
-    async pagination<D extends BaseDto, E extends CustomBaseEntity>(repository: Repository<E>, page: number, limit: number, options?: FindOptionsWhere<E>, relations?: string[]): Promise<D[]>{
+    async pagination<D extends BaseDto, E extends CustomBaseEntity>(repository: Repository<E>, page: number, limit: number, options?: FindOptionsWhere<E>, relations?: string[]): Promise<[D[], Number]>{
         try {
             const entries = await repository.find({where:[options], relations: relations, skip: (page-1)*limit, take: limit});
-            const res = await this.conversionService.toDtos<E, D>(entries);
-            return res;
+            const total = await repository.count({where:[options]});
+            const res = await this.conversionService.toPagination<E, D>([entries, total]);
+            return [res[0], total];
         } catch (error) {
             throw new SystemException(error);
         }
